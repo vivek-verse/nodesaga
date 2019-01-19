@@ -1,0 +1,25 @@
+{
+  "name": "nodesaga",
+  "version": "0.0.1",
+  "description": "Implementation of Saga Pattern in Node",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivivekyadav/nodesaga.git"
+  },
+  "keywords": [
+    "Saga",
+    "Microservices",
+    "Node",
+    "Transactions"
+  ],
+  "author": "Vivek Yadav",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ivivekyadav/nodesaga/issues"
+  },
+  "homepage": "https://github.com/ivivekyadav/nodesaga.get#readme"
+}
