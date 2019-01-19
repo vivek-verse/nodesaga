@@ -9,7 +9,7 @@ var task1 = function(callback){
 }
 
 var task2 = function(callback){
-	if(true){
+	if(false){
 		return callback(null, "Task two executed successfully.");
 	}else{
 		return callback(new Error("Task two could not be executed successfully."), null);
@@ -27,7 +27,6 @@ var fallback2 = function(){
 module.exports = {
 	
 	StartTransaction   : function(taskQueue, startCallback){
-		console.log("StartTransaction called.");
 		var queueArray = taskQueue;
 		this.SetTransactionQueue(taskQueue, startCallback);
 	},
@@ -82,7 +81,7 @@ module.exports = {
 	    				}
 	    			}
 
-	    			that.CheckQueueStack(taskQueue, function(err, done){
+	    			that.RunFallbacks(taskQueue, queueStates, function(err, done){
 			   			if(err){
 
 			   			}else{
@@ -95,7 +94,7 @@ module.exports = {
 	    }else{
 	   		that.CheckQueueStack(queueStates, function(err, done){
 	   			if(err){
-
+			    	startCallback(err, null);
 	   			}else{
 			    	startCallback(null, done);
 	   			}
@@ -124,10 +123,24 @@ module.exports = {
 		this.ExecuteTransaction(queueStates, taskQueue, startCallback);
 
 	},
-	RunFallbacks        : function(fallbacks){
-		console.log("RunFallbacks called.");
+	RunFallbacks        : function(taskQueue, queueStates, runFallbackCallback){
+
+		var failedIndexes = [];
+
+		for(key in queueStates){
+			if(queueStates[key].executed == 'failed'){
+				failedIndexes.push(parseInt(key.substr(4)));
+			}
+		}
+
 	} 
 
 }
 
-module.exports.StartTransaction([{task : task1, fallback : fallback1}, {task : task2, fallback : fallback2}]);
+module.exports.StartTransaction([{task : task1, fallback : fallback1}, {task : task2, fallback : fallback2}], function(err, done){
+	if(err){
+		console.log("Err is : ", err);
+	}else{
+		console.log("Message is : ", done);
+	}
+});
