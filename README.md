@@ -1,6 +1,8 @@
 ## nodesaga
 Saga implementation in Node.JS. It's done to prevent overhead for long transaction processes in an application by breaking the Microservices into multiple.
 
+![Saga design](https://cdn-images-1.medium.com/max/1600/1*2iJ9L9-PxPU8cT1tRH2VPA.png)
+
 ## HOW TO INSTALL
 ### npm install nodesaga --save
 
@@ -69,9 +71,12 @@ nodesaga.StartTransaction([
 ```
 
 
-#### {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}}
+#### {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}} 
+ 
+ //above is a transaction pipeline
+
 ##### Here we can give a transaction in form of a pipelines. All will run one after another :)
 
-![Saga design](https://cdn-images-1.medium.com/max/1600/1*2iJ9L9-PxPU8cT1tRH2VPA.png)
+##### Here in the above figure the transaction has tasks and their specific fallbacks.
 
-##### Here in the above figure the transaction has tasks and their specific fallbacks. 
+### It's all maintained by a central system. If all goes "yes" the whole transaction is successfull. If anyone of the inbetween task or pipeline fails all the previous fallbacks are called and data get's reverted as if nothing happened. 
