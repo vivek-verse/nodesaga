@@ -2,7 +2,7 @@
 Saga implementation in Node.JS. It's done to prevent overhead for long transaction processes in an application by breaking the Microservices into multiple.
 
 ## HOW TO INSTALL
-#npm install nodesaga --save
+### npm install nodesaga --save
 
 ## HOW TO USE
 
@@ -55,10 +55,10 @@ var fallback3 = function(a, b, c, callback){
 var nodesaga = require('nodesaga');
 
 nodesaga.StartTransaction([
-								 {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}},
-								 {task : task2, fallback : fallback2, args : {task : ['g', 'h', 'i'], fallback : ['j', 'k', 'l']}},
-								 {task : task3, fallback : fallback3, args : {task : ['g', 'h', 'i'], fallback : ['j', 'k', 'l']}}
-								 ], function(err, done){
+	 {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}},
+	 {task : task2, fallback : fallback2, args : {task : ['g', 'h', 'i'], fallback : ['j', 'k', 'l']}},
+	 {task : task3, fallback : fallback3, args : {task : ['g', 'h', 'i'], fallback : ['j', 'k', 'l']}}
+	 ], function(err, done){
 	if(err){
 		console.log("Err is : ", err);
 	}else{
@@ -69,6 +69,6 @@ nodesaga.StartTransaction([
 ```
 
 
-## {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}}
-#### Here we can give a transaction in form of a pipelines. All will run one after another :)
+#### {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}}
+##### Here we can give a transaction in form of a pipelines. All will run one after another :)
 
