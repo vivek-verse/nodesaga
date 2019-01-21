@@ -71,9 +71,31 @@ nodesaga.StartTransaction([
 ```
 
 
-#### {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}} 
- 
- //above is a transaction pipeline
+### {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}} 
+
+```javascript
+
+//above is a transaction pipeline
+
+args : {
+	      task : ['a', 'b', 'c'], // 'a', 'b', 'c' are the arguments you want to pass they can be n.
+	      fallback : ['d', 'e', 'f'] //'d', 'e', 'f' are the arguments you want to pass in the fallback they can be n.
+	   }
+
+```
+#### task1 is the servie function fallback1 is it's fallback service function
+
+```javascript
+var task1 = function(a, b, c, callback){
+	if(true){ //true here if the task executed is successfull.
+		return callback(null, "Task one executed successfully.");
+	}else{
+		return callback(new Error("Task one could not be executed successfully."), null);
+	}
+}
+```
+
+#### While writing the tasks or fallbacks last argument must be a callback with err as first argument and message or data as second argument as per Node.JS convention.
 
 ##### Here we can give a transaction in form of a pipelines. All will run one after another :)
 
