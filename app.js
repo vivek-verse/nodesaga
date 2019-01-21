@@ -1,27 +1,39 @@
 const { promisify } = require("util");
 
-var task1 = function(callback){
-	if(false){
+var task1 = function(a, b, c, callback){
+	if(true){
 		return callback(null, "Task one executed successfully.");
 	}else{
 		return callback(new Error("Task one could not be executed successfully."), null);
 	}
 }
 
-var task2 = function(callback){
-	if(false){
+var task2 = function(a, b, c, callback){
+	if(true){
 		return callback(null, "Task two executed successfully.");
 	}else{
 		return callback(new Error("Task two could not be executed successfully."), null);
 	}
 }
 
-var fallback1 = function(){
+var task3 = function(a, b, c, callback){
+	if(false){
+		return callback(null, "Task three executed successfully.");
+	}else{
+		return callback(new Error("Task three could not be executed successfully."), null);
+	}
+}
+
+var fallback1 = function(a, b, c, callback){
 	console.log("Fallback one called");
 }
 
-var fallback2 = function(){
+var fallback2 = function(a, b, c, callback){
 	console.log("Fallback two called");
+}
+
+var fallback3 = function(a, b, c, callback){
+	console.log("Fallback three called");
 }
 
 module.exports = {
@@ -34,11 +46,16 @@ module.exports = {
 
 	    var taskPromise = promisify(taskQueue[currentIndex].task);
 
+	    taskPromise = taskPromise.bind(null, ...taskQueue[currentIndex].args.task);
+
 	    taskPromise().then(function(str){
-	    	executeCallback(null, str);
-	    }).catch(function(err){
-	    	executeCallback(new Error("Failed at index ", currentIndex), null);
-	    })
+		    executeCallback(null, str);
+		}).catch(function(err){
+
+			console.log("Err is ", err);
+
+		    executeCallback(new Error("Failed at index ", currentIndex), null);
+		})
 	},
 	CheckQueueStack     : function(queueStates, checkQueueCallback){
 
@@ -47,11 +64,12 @@ module.exports = {
 		for(var key in queueStates){
 				if(queueStates[key].ran != "yes" || queueStates[key].executed != "yes"){
 					failed = true;
+					break;
 				}
 		}
 
 		if(failed){
-			checkQueueCallback(new Error("Failed to execute all transaxtion"), null);
+			checkQueueCallback(new Error("Failed to execute all transaction"), null);
 		}else{
 			checkQueueCallback(null, "All executed successfully");
 		}
@@ -128,16 +146,16 @@ module.exports = {
 	},
 	RunFallbacks        : function(taskQueue, queueStates, runFallbackCallback){
 
-		var failedIndexes = []; 
+		var fallbackIndexes = []; 
 
 		for(key in queueStates){
-			if(queueStates[key].executed == 'failed'){
-				failedIndexes.push(parseInt(key.substr(4)));
+			if(queueStates[key].ran == 'yes' && queueStates[key].executed == 'yes'){
+				fallbackIndexes.push(parseInt(key.substr(4)));
 			}
 		}
 
-		for(var i = 0; i < failedIndexes.length; i++){
-			taskQueue[failedIndexes[i]].fallback()
+		for(var i = 0; i < fallbackIndexes.length; i++){
+			taskQueue[fallbackIndexes[i]].fallback.apply(null, taskQueue[fallbackIndexes[i]].args.fallback);
 		}
 
 		runFallbackCallback(null, "Fallbacks ran successfully");
@@ -146,7 +164,11 @@ module.exports = {
 
 }
 
-module.exports.StartTransaction([{task : task1, fallback : fallback1}, {task : task2, fallback : fallback2}], function(err, done){
+module.exports.StartTransaction([
+								 {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}},
+								 {task : task2, fallback : fallback2, args : {task : ['g', 'h', 'i'], fallback : ['j', 'k', 'l']}},
+								 {task : task3, fallback : fallback3, args : {task : ['g', 'h', 'i'], fallback : ['j', 'k', 'l']}}
+								 ], function(err, done){
 	if(err){
 		console.log("Err is : ", err);
 	}else{
