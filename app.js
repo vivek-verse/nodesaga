@@ -1,7 +1,7 @@
 const { promisify } = require("util");
 
 var task1 = function(callback){
-	if(true){
+	if(false){
 		return callback(null, "Task one executed successfully.");
 	}else{
 		return callback(new Error("Task one could not be executed successfully."), null);
@@ -31,6 +31,7 @@ module.exports = {
 		this.SetTransactionQueue(taskQueue, startCallback);
 	},
 	ExecuteTask         : function(taskQueue, currentIndex, executeCallback){
+
 	    var taskPromise = promisify(taskQueue[currentIndex].task);
 
 	    taskPromise().then(function(str){
@@ -40,6 +41,7 @@ module.exports = {
 	    })
 	},
 	CheckQueueStack     : function(queueStates, checkQueueCallback){
+
 		var failed = false;
 
 		for(var key in queueStates){
@@ -103,6 +105,7 @@ module.exports = {
 
 	},
 	ExecuteTransaction  : function(queueStates, taskQueue, startCallback){
+
 		var queueLength      = taskQueue.length,
 	    	currentIndex 	 = 0;
 	    	this.LoopQueue(taskQueue, queueStates, currentIndex, startCallback, function(err, done){
@@ -125,13 +128,19 @@ module.exports = {
 	},
 	RunFallbacks        : function(taskQueue, queueStates, runFallbackCallback){
 
-		var failedIndexes = [];
+		var failedIndexes = []; 
 
 		for(key in queueStates){
 			if(queueStates[key].executed == 'failed'){
 				failedIndexes.push(parseInt(key.substr(4)));
 			}
 		}
+
+		for(var i = 0; i < failedIndexes.length; i++){
+			taskQueue[failedIndexes[i]].fallback()
+		}
+
+		runFallbackCallback(null, "Fallbacks ran successfully");
 
 	} 
 
