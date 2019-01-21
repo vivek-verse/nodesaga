@@ -72,3 +72,6 @@ nodesaga.StartTransaction([
 #### {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}}
 ##### Here we can give a transaction in form of a pipelines. All will run one after another :)
 
+![Saga design](https://cdn-images-1.medium.com/max/1600/1*2iJ9L9-PxPU8cT1tRH2VPA.png)
+
+##### Here in the above figure the transaction has tasks and their specific fallbacks. 
