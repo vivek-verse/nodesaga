@@ -1,5 +1,5 @@
 ## nodesaga
-Saga implementation in Node.JS. It's done to prevent overhead for long transaction processes in an application by breaking the Microservices into multiple.
+Saga implementation in Node.JS. It's done to prevent overhead for long transaction processes in an application by breaking the Microservices into multiple services.
 
 ![Saga design](https://cdn-images-1.medium.com/max/1600/1*2iJ9L9-PxPU8cT1tRH2VPA.png)
 
@@ -10,7 +10,7 @@ Saga implementation in Node.JS. It's done to prevent overhead for long transacti
 
 ```javascript
 
-//Suppose your app is having following services tesk1, task2, task3 doing different different operations
+//Suppose your app is having following services task1, task2, task3 doing different different operations
 
 var task1 = function(a, b, c, callback){
 	if(true){ //true here if the task executed is successfull.
@@ -78,12 +78,12 @@ nodesaga.StartTransaction([
 //above is a transaction pipeline
 
 args : {
-	      task : ['a', 'b', 'c'], // 'a', 'b', 'c' are the arguments you want to pass they can be n.
-	      fallback : ['d', 'e', 'f'] //'d', 'e', 'f' are the arguments you want to pass in the fallback they can be n.
+	      task : ['a', 'b', 'c'], // 'a', 'b', 'c', are the arguments you want to pass in task function, they can be n.
+	      fallback : ['d', 'e', 'f'] //'d', 'e', 'f', are the arguments you want to pass in the fallback function, they can be n.
 	   }
 
 ```
-#### task1 is the servie function fallback1 is it's fallback service function
+#### task1 is the service function, fallback1 is it's fallback service function
 
 ```javascript
 var task1 = function(a, b, c, callback){
@@ -97,7 +97,7 @@ var task1 = function(a, b, c, callback){
 
 #### While writing the tasks or fallbacks last argument must be a callback with err as first argument and message or data as second argument as per Node.JS convention.
 
-##### Here we can give a transaction in form of a pipelines. All will run one after another :)
+##### Here we can give a transaction in form of pipelines. All will run one after another :)
 
 ##### Here in the above figure the transaction has tasks and their specific fallbacks.
 
