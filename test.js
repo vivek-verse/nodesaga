@@ -22,15 +22,15 @@ var task3 = function(a, b, c, callback){
 	}
 }
 
-var fallback1 = function(a, b, c, callback){
+var fallback1 = function(a, b, c){
 	console.log("Fallback one called");
 }
 
-var fallback2 = function(a, b, c, callback){
+var fallback2 = function(a, b, c){
 	console.log("Fallback two called");
 }
 
-var fallback3 = function(a, b, c, callback){
+var fallback3 = function(a, b, c){
 	console.log("Fallback three called");
 }
 

@@ -1,10 +1,10 @@
 {
   "name": "nodesaga",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Implementation of Saga Pattern in Node",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",

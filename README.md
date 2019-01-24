@@ -38,19 +38,19 @@ var task3 = function(a, b, c, callback){
 
 //fallback1 is service if task1 fails, to revert changes
 
-var fallback1 = function(a, b, c, callback){
+var fallback1 = function(a, b, c){
 	console.log("Fallback one called");
 }
 
 //fallback2 is service if task2 fails, to revert changes
 
-var fallback2 = function(a, b, c, callback){
+var fallback2 = function(a, b, c){
 	console.log("Fallback two called");
 }
 
 //fallback3 is service if task3 fails, to revert changes
 
-var fallback3 = function(a, b, c, callback){
+var fallback3 = function(a, b, c){
 	console.log("Fallback three called");
 }
 
@@ -87,15 +87,23 @@ args : {
 
 ```javascript
 var task1 = function(a, b, c, callback){
-	if(true){ //true here if the task executed is successfull.
+	if(true){ 
+		/*true here if the task executed is successfull. You have to write your logic instead of this and then return the callback like this. */
 		return callback(null, "Task one executed successfully.");
 	}else{
 		return callback(new Error("Task one could not be executed successfully."), null);
 	}
 }
+
+//fallback1 is service if task1 fails, to revert changes
+
+var fallback1 = function(a, b, c){
+	console.log("Fallback one called"); //Fallback logic here
+}
+
 ```
 
-#### While writing the tasks or fallbacks last argument must be a callback with err as first argument and message or data as second argument as per Node.JS convention.
+#### While writing the tasks last argument must be a callback with err as first argument and message or data as second argument as per Node.JS convention, in fallback functions I have not implemented callback because it's not needed.
 
 ##### Here we can give a transaction in form of pipelines. All will run one after another :)
 
