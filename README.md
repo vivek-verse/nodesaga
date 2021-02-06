@@ -1,5 +1,9 @@
 ## nodesaga
-Saga implementation in Node.JS. It's done to prevent overhead for long transaction processes in an application by breaking the Microservices into multiple services.
+Saga implementation in Node.JS. It's done to prevent overhead for long transaction processes and call functions of various microservices related to it depending on each other in a queue execution and run fallbacks if one of them is unsuccessful.
+
+You can define your custom transaction and their respective fallbacks.
+Please read below carefully. For better understanding you can reach me out.
+Thanks!
 
 ![Saga design](https://cdn-images-1.medium.com/max/1600/1*2iJ9L9-PxPU8cT1tRH2VPA.png)
 
