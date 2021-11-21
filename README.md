@@ -1,5 +1,5 @@
 ## nodesaga
-Saga implementation in Node.JS. It's done to prevent overhead for long transaction processes and call functions of various microservices related to it depending on each other in a queue execution and run fallbacks if one of them is unsuccessful.
+Saga implementation in Node.JS. It's done to prevent overhead for long transaction processes and call functions of constious microservices related to it depending on each other in a queue execution and run fallbacks if one of them is unsuccessful.
 
 You can define your custom transaction and their respective fallbacks.
 Please read below carefully. For better understanding you can reach me out.
@@ -14,9 +14,11 @@ Thanks!
 
 ```javascript
 
+import { Saga } from "./app.js";
+
 //Suppose your app is having following services task1, task2, task3 doing different different operations
 
-var task1 = function(a, b, c, callback){
+const task1 = function(a, b, c, callback){
 	if(true){ //true here if the task executed is successfull.
 		return callback(null, "Task one executed successfully.");
 	}else{
@@ -24,7 +26,7 @@ var task1 = function(a, b, c, callback){
 	}
 }
 
-var task2 = function(a, b, c, callback){
+const task2 = function(a, b, c, callback){
 	if(true){ //true here if the task executed is successfull.
 		return callback(null, "Task two executed successfully.");
 	}else{    //fasle here if the task executed not successfull.
@@ -32,7 +34,7 @@ var task2 = function(a, b, c, callback){
 	}
 }
 
-var task3 = function(a, b, c, callback){
+const task3 = function(a, b, c, callback){
 	if(false){ //true here if the task executed is successfull.
 		return callback(null, "Task three executed successfully.");
 	}else{    //fasle here if the task executed not successfull.
@@ -42,25 +44,25 @@ var task3 = function(a, b, c, callback){
 
 //fallback1 is service if task1 fails, to revert changes
 
-var fallback1 = function(a, b, c){
+const fallback1 = function(a, b, c){
 	console.log("Fallback one called");
 }
 
 //fallback2 is service if task2 fails, to revert changes
 
-var fallback2 = function(a, b, c){
+const fallback2 = function(a, b, c){
 	console.log("Fallback two called");
 }
 
 //fallback3 is service if task3 fails, to revert changes
 
-var fallback3 = function(a, b, c){
+const fallback3 = function(a, b, c){
 	console.log("Fallback three called");
 }
 
-var nodesaga = require('nodesaga');
+const saga = new Saga();
 
-nodesaga.StartTransaction([
+saga.StartTransaction([
 	 {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}},
 	 {task : task2, fallback : fallback2, args : {task : ['g', 'h', 'i'], fallback : ['j', 'k', 'l']}},
 	 {task : task3, fallback : fallback3, args : {task : ['g', 'h', 'i'], fallback : ['j', 'k', 'l']}}
@@ -90,7 +92,7 @@ args : {
 #### task1 is the service function, fallback1 is it's fallback service function
 
 ```javascript
-var task1 = function(a, b, c, callback){
+const task1 = function(a, b, c, callback){
 	if(true){ 
 		/*true here if the task executed is successfull. You have to write your logic instead of this and then return the callback like this. */
 		return callback(null, "Task one executed successfully.");
@@ -101,7 +103,7 @@ var task1 = function(a, b, c, callback){
 
 //fallback1 is service if task1 fails, to revert changes
 
-var fallback1 = function(a, b, c){
+const fallback1 = function(a, b, c){
 	console.log("Fallback one called"); //Fallback logic here
 }
 
