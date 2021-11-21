@@ -14,7 +14,7 @@ Thanks!
 
 ```javascript
 
-import { Saga } from "./app.js";
+import { Saga } from "nodesaga";
 
 //Suppose your app is having following services task1, task2, task3 doing different different operations
 
