@@ -1,4 +1,6 @@
-var task1 = function(a, b, c, callback){
+import { Saga } from "./app.js";
+
+const task1 = function(a, b, c, callback){
 	if(true){
 		return callback(null, "Task one executed successfully.");
 	}else{
@@ -6,7 +8,7 @@ var task1 = function(a, b, c, callback){
 	}
 }
 
-var task2 = function(a, b, c, callback){
+const task2 = function(a, b, c, callback){
 	if(true){
 		return callback(null, "Task two executed successfully.");
 	}else{
@@ -14,7 +16,7 @@ var task2 = function(a, b, c, callback){
 	}
 }
 
-var task3 = function(a, b, c, callback){
+const task3 = function(a, b, c, callback){
 	if(false){
 		return callback(null, "Task three executed successfully.");
 	}else{
@@ -22,20 +24,19 @@ var task3 = function(a, b, c, callback){
 	}
 }
 
-var fallback1 = function(a, b, c){
+const fallback1 = function(a, b, c){
 	console.log("Fallback one called");
 }
 
-var fallback2 = function(a, b, c){
+const fallback2 = function(a, b, c){
 	console.log("Fallback two called");
 }
 
-var fallback3 = function(a, b, c){
+const fallback3 = function(a, b, c){
 	console.log("Fallback three called");
 }
 
-
-var nodesaga = require("./app.js");
+const nodesaga = new Saga();
 
 nodesaga.StartTransaction([
 								 {task : task1, fallback : fallback1, args : {task : ['a', 'b', 'c'], fallback : ['d', 'e', 'f']}},
